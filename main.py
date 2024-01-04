@@ -646,7 +646,7 @@ def create_campaign():
 
 @app.route('/create_project')
 def create_project():
-    return render_template("create_project.html")
+    return render_template("create-project.html")
 
 
 @app.route('/offer_a_deal')
@@ -707,12 +707,21 @@ def log_in_password_admin():
             print(password_admin)
             if password_admin == jinay_password:
                 print('Login successful')
-                return render_template("light-header.html")
+                return render_template("light-header_admin.html")
             else:
                 return render_template("incorrect_password.html")
     print('Error: Invalid request')
     return 'Error: Invalid request'  # Modify this according to your error handling
 
+
+
+@app.route('/project_details', methods=['POST'])
+def project_details():
+    if request.method == 'POST':
+        name_project = request.form['project_name']
+        print(name_project)
+    print('Error: Invalid request')
+    return 'Error: Invalid request'  # Modify this according to your error handling
 
 if __name__ == '__main__':
     app.run(debug=True)
