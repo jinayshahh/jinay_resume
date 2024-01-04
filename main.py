@@ -7,7 +7,7 @@ import os
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Set a secret key for session management
-
+jinay_password = "Bulletproof28"
 
 @app.route('/')
 def index():
@@ -697,6 +697,21 @@ def statistics():
 @app.route('/tables')
 def tables():
     return render_template("tables.html")
+
+
+@app.route('/log_in_password_admin', methods=['POST'])
+def log_in_password_admin():
+    if request.method == 'POST':
+        if 'password_admin' in request.form:
+            password_admin = request.form['password_admin']
+            print(password_admin)
+            if password_admin == jinay_password:
+                print('Login successful')
+                return render_template("light-header.html")
+            else:
+                return render_template("incorrect_password.html")
+    print('Error: Invalid request')
+    return 'Error: Invalid request'  # Modify this according to your error handling
 
 
 if __name__ == '__main__':
