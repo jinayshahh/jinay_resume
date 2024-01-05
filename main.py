@@ -1,4 +1,5 @@
 from flask import Flask, request, redirect, session, render_template, jsonify, url_for
+import mysql.connector
 from datetime import datetime, time
 import time
 import random
@@ -8,6 +9,15 @@ import os
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Set a secret key for session management
 jinay_password = "Bulletproof28"
+
+conn = mysql.connector.connect(
+    user="root",
+    password="abcd1234",
+    host="localhost",
+    database="jinay_shah_resume",
+    port="3306"
+)
+mycur = conn.cursor(buffered=True)
 
 @app.route('/')
 def index():
@@ -699,6 +709,21 @@ def tables():
     return render_template("tables.html")
 
 
+@app.route('/main_page', methods=['POST', 'GET'])
+def main_page():
+    mycur.execute("select * from project_details")
+    project_details_main = mycur.fetchall()
+    conn.commit()
+    return render_template("light-header_admin.html", project_details = project_details_main)
+
+@app.route("/project_details_full/<project_name>")
+def project_details_full(project_name):
+    mycur.execute(f"select * from project_details where project_name = '{project_name}'")
+    project_details_main = mycur.fetchall()
+    conn.commit()
+    return render_template("dark-header.html", project_details = project_details_main)
+
+
 @app.route('/log_in_password_admin', methods=['POST'])
 def log_in_password_admin():
     if request.method == 'POST':
@@ -707,7 +732,7 @@ def log_in_password_admin():
             print(password_admin)
             if password_admin == jinay_password:
                 print('Login successful')
-                return render_template("light-header_admin.html")
+                return redirect("main_page")
             else:
                 return render_template("incorrect_password.html")
     print('Error: Invalid request')
@@ -718,10 +743,31 @@ def log_in_password_admin():
 @app.route('/project_details', methods=['POST'])
 def project_details():
     if request.method == 'POST':
+        print("hii")
+        mycur.execute("SELECT idproject_details FROM project_details ORDER BY idproject_details DESC LIMIT 1")
+        project_ids = mycur.fetchall()
+        conn.commit()
+        if project_ids:
+            project_id = int(project_ids[0][0]) + 1
+        else:
+            project_id = 1
         name_project = request.form['project_name']
-        print(name_project)
-    print('Error: Invalid request')
-    return 'Error: Invalid request'  # Modify this according to your error handling
+        category = request.form['category']
+        framework = request.form['framework']
+        days_details = request.form['days_details']
+        project_brief_short = request.form['project_brief_short']
+        project_brief_big = request.form['project_brief_big']
+        project_progress = request.form['progress']
+        project_amount = request.form['amount']
+        project_task = request.form['tasks']
+        mycur.execute("INSERT INTO project_details(idproject_details, project_name, category_project, project_framework"
+                      ", day_details, project_progress, project_brief_short, project_brief_big, project_cash,"
+                      f" number_of_tasks) VALUES('{project_id}', '{name_project}', '{category}', "
+                      f"'{framework}', '{days_details}', '{project_progress}', '{project_brief_short}', "
+                      f"'{project_brief_big}', '{project_amount}', '{project_task}')")
+        conn.commit()
+
+        return redirect("main_page")  # Modify this according to your error handling
 
 if __name__ == '__main__':
     app.run(debug=True)
