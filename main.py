@@ -711,11 +711,26 @@ def tables():
 
 @app.route('/jinay_resume', methods=['POST', 'GET'])
 def jinay_resume():
-    mycur.execute("select * from project_details")
+    mycur.execute("select * from project_details where soft_delete != 'yes'")
     project_details_main = mycur.fetchall()
     conn.commit()
     print(project_details_main)
     return render_template("light-header.html", project_details=project_details_main)
+
+
+@app.route('/soft_delete_project_list')
+def soft_delete_project_list():
+    mycur.execute("SELECT * from project_details where soft_delete = 'yes'")
+    deleted_projects = mycur.fetchall()
+    conn.commit()
+    return render_template("soft_delete_project_list.html", deleted_sports=deleted_projects)
+
+
+@app.route('/revive_project/<revive_project_name>', methods=['POST', 'GET'])
+def revive_match(revive_project_name):
+    mycur.execute(f"UPDATE project_details SET soft_delete = 'no' WHERE project_name = '{revive_project_name}'")
+    conn.commit()
+    return redirect(url_for("main_page"))
 
 
 @app.route('/main_page', methods=['POST', 'GET'])
