@@ -81,10 +81,11 @@ License: For each use you must have a valid license purchased only from above li
 								<!--end::Toolbar-->
 								<!--begin::Row-->
 								<div class="row g-6 g-xl-9">
+									{% for project in project_details %}
 									<!--begin::Col-->
 									<div class="col-md-6 col-xl-4">
 										<!--begin::Card-->
-										<a href="../../demo1/dist/apps/projects/project.html" class="card border-hover-primary">
+										<a href="/project_details_full/{{ project[1] }}" class="card border-hover-primary">
 											<!--begin::Card header-->
 											<div class="card-header border-0 pt-9">
 												<!--begin::Card Title-->
@@ -98,7 +99,7 @@ License: For each use you must have a valid license purchased only from above li
 												<!--end::Car Title-->
 												<!--begin::Card toolbar-->
 												<div class="card-toolbar">
-													<span class="badge badge-light-primary fw-bold me-auto px-4 py-3">In Progress</span>
+													<span class="badge badge-light-primary fw-bold me-auto px-4 py-3">{{ project[5] }}</span>
 												</div>
 												<!--end::Card toolbar-->
 											</div>
@@ -106,16 +107,16 @@ License: For each use you must have a valid license purchased only from above li
 											<!--begin:: Card body-->
 											<div class="card-body p-9">
 												<!--begin::Name-->
-												<div class="fs-3 fw-bold text-dark">Ginie Bet</div>
+												<div class="fs-3 fw-bold text-dark">{{ project[1] }}</div>
 												<!--end::Name-->
 												<!--begin::Description-->
-												<p class="text-gray-400 fw-semibold fs-5 mt-1 mb-7">App made with python from scratch</p>
+												<p class="text-gray-400 fw-semibold fs-5 mt-1 mb-7">{{ project[6] }}</p>
 												<!--end::Description-->
 												<!--begin::Info-->
 												<div class="d-flex flex-wrap mb-5">
 													<!--begin::Budget-->
 													<div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3">
-														<div class="fs-6 text-gray-800 fw-bold">python, css, html  and more</div>
+														<div class="fs-6 text-gray-800 fw-bold">{{ project[3] }}</div>
 														<div class="fw-semibold text-gray-400">languages used</div>
 													</div>
 													<!--end::Budget-->
@@ -132,57 +133,7 @@ License: For each use you must have a valid license purchased only from above li
 										<!--end::Card-->
 									</div>
 									<!--end::Col-->
-									<!--begin::Col-->
-									<div class="col-md-6 col-xl-4">
-										<!--begin::Card-->
-										<a href="/dark_header" class="card border-hover-primary">
-											<!--begin::Card header-->
-											<div class="card-header border-0 pt-9">
-												<!--begin::Card Title-->
-												<div class="card-title m-0">
-													<!--begin::Avatar-->
-													<div class="symbol symbol-50px w-50px bg-light">
-														<img src="static/assets/media/svg/brand-logos/adidas.svg" alt="image" class="p-3" />
-													</div>
-													<!--end::Avatar-->
-												</div>
-												<!--end::Car Title-->
-												<!--begin::Card toolbar-->
-												<div class="card-toolbar">
-													<span class="badge badge-light-primary fw-bold me-auto px-4 py-3">In Progress</span>
-												</div>
-												<!--end::Card toolbar-->
-											</div>
-											<!--end:: Card header-->
-											<!--begin:: Card body-->
-											<div class="card-body p-9">
-												<!--begin::Name-->
-												<div class="fs-3 fw-bold text-dark">Seven Spuns</div>
-												<!--end::Name-->
-												<!--begin::Description-->
-												<p class="text-gray-400 fw-semibold fs-5 mt-1 mb-7">website for Fashion designer</p>
-												<!--end::Description-->
-												<!--begin::Info-->
-												<div class="d-flex flex-wrap mb-5">
-													<!--begin::Budget-->
-													<div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mb-3">
-														<div class="fs-6 text-gray-800 fw-bold">python, css, html  and more</div>
-														<div class="fw-semibold text-gray-400">languages used</div>
-													</div>
-													<!--end::Budget-->
-												</div>
-												<!--end::Info-->
-												<!--begin::Progress-->
-												<div class="h-4px w-100 bg-light mb-5" data-bs-toggle="tooltip" title="This project 50% completed">
-													<div class="bg-primary rounded h-4px" role="progressbar" style="width: 40%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-												</div>
-												<!--end::Progress-->
-											</div>
-											<!--end:: Card body-->
-										</a>
-										<!--end::Card-->
-									</div>
-									<!--end::Col-->
+									{% endfor %}
 								</div>
 								<!--end::Row-->
 								<!--begin::Modal - Create Project-->

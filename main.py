@@ -709,6 +709,15 @@ def tables():
     return render_template("tables.html")
 
 
+@app.route('/jinay_resume', methods=['POST', 'GET'])
+def jinay_resume():
+    mycur.execute("select * from project_details")
+    project_details_main = mycur.fetchall()
+    conn.commit()
+    print(project_details_main)
+    return render_template("light-header.html", project_details=project_details_main)
+
+
 @app.route('/main_page', methods=['POST', 'GET'])
 def main_page():
     mycur.execute("select * from project_details")
