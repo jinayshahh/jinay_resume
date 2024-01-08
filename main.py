@@ -734,6 +734,15 @@ def project_details_full(project_name):
     return render_template("dark-header.html", project_details=project_details_main)
 
 
+@app.route("/project_details_full_general/<project_name>")
+def project_details_full_general(project_name):
+    session['project_name'] = project_name
+    mycur.execute(f"select * from project_details where project_name = '{project_name}'")
+    project_details_main = mycur.fetchall()
+    conn.commit()
+    return render_template("dark-header-general.html", project_details=project_details_main)
+
+
 @app.route('/update_project', methods=['POST', 'GET'])
 def update_open_sport():
     project_name = session.get("project_name")
