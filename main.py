@@ -738,6 +738,7 @@ def main_page():
     mycur.execute("select * from project_details where soft_delete != 'yes'")
     project_details_main = mycur.fetchall()
     conn.commit()
+    print(project_details_main)
     return render_template("light-header_admin.html", project_details=project_details_main)
 
 @app.route("/project_details_full/<project_name>")
@@ -836,9 +837,9 @@ def project_details():
         project_task = request.form['tasks']
         mycur.execute("INSERT INTO project_details(idproject_details, project_name, category_project, project_framework"
                       ", day_details, project_progress, project_brief_short, project_brief_big, project_cash,"
-                      f" number_of_tasks) VALUES('{project_id}', '{name_project}', '{category}', "
+                      f" number_of_tasks, soft_delete) VALUES('{project_id}', '{name_project}', '{category}', "
                       f"'{framework}', '{days_details}', '{project_progress}', '{project_brief_short}', "
-                      f"'{project_brief_big}', '{project_amount}', '{project_task}')")
+                      f"'{project_brief_big}', '{project_amount}', '{project_task}', 'no')")
         conn.commit()
 
         return redirect("main_page")  # Modify this according to your error handling
