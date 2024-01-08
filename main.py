@@ -720,7 +720,7 @@ def jinay_resume():
 
 @app.route('/main_page', methods=['POST', 'GET'])
 def main_page():
-    mycur.execute("select * from project_details")
+    mycur.execute("select * from project_details where soft_delete != 'yes'")
     project_details_main = mycur.fetchall()
     conn.commit()
     return render_template("light-header_admin.html", project_details=project_details_main)
@@ -741,6 +741,14 @@ def project_details_full_general(project_name):
     project_details_main = mycur.fetchall()
     conn.commit()
     return render_template("dark-header-general.html", project_details=project_details_main)
+
+
+@app.route('/delete_project', methods=['POST'])
+def soft_delete_project():
+    project_name = session.get("project_name")
+    mycur.execute(f"UPDATE project_details SET soft_delete = 'yes' WHERE project_name = '{project_name}'")
+    conn.commit()
+    return redirect(url_for("main_page"))
 
 
 @app.route('/update_project', methods=['POST', 'GET'])

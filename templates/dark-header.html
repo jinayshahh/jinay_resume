@@ -234,7 +234,9 @@ License: For each use you must have a valid license purchased only from above li
 														<!--begin::Actions-->
 														<div class="d-flex mb-4">
 															<a href="/update_project" class="btn btn-sm btn-bg-light btn-success btn-active-color-danger me-3">Update</a>
-															<a href="#" class="btn btn-sm btn-danger me-3" data-bs-toggle="modal" data-bs-target="#kt_modal_new_target">Delete</a>
+															<button class="btn btn-light-danger fw-bold px-4 py-3 block-btn" data-user-id="{{ project[0] }}">
+																	Delete
+																</button>
 														</div>
 														<!--end::Actions-->
 													</div>
@@ -5259,6 +5261,33 @@ License: For each use you must have a valid license purchased only from above li
 		<!--end::Modal - Invite Friend-->
 		<!--end::Modals-->
 		<!--begin::Javascript-->
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+    const deleteButtons = document.querySelectorAll('.block-btn');
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const userId = this.getAttribute('data-user-id');
+            const formData = new FormData();
+            formData.append('user_id', userId);
+
+            fetch('/delete_project', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(result => {
+                console.log(result); // Display the server response
+                // Refresh the page
+                window.location.href = "/main_page";
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+});
+		</script>
 		<script>var hostUrl = "static/assets/";</script>
 		<!--begin::Global Javascript Bundle(used by all pages)-->
 		<script src="static/assets/plugins/global/plugins.bundle.js"></script>
