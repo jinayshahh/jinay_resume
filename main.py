@@ -731,7 +731,30 @@ def update_open_sport():
     mycur.execute(f"select * from project_details where project_name = '{project_name}'")
     project_details_main = mycur.fetchall()
     conn.commit()
-    return render_template('project_update_details.html', project_details=project_details_main)
+    return render_template('project_update_details.html', project_details=project_details_main, project_name=project_name)
+
+
+@app.route('/project_update_form/<project_id>', methods=['POST'])
+def project_update_form(project_id):
+    if request.method == 'POST':
+        project_name = request.form.get('project_name')
+        project_brief_short = request.form.get('project_brief_short')
+        project_brief_big = request.form.get('project_brief_big')
+        days_details = request.form.get('days_details')
+        amount_project = request.form.get('amount')
+        tasks_project = request.form.get('tasks')
+        progress_project = request.form.get('progress')
+        category_project = request.form.get('category')
+        framework_project = request.form.get('framework')
+        mycur.execute(f"UPDATE project_details SET project_name = '{project_name}', category_project = "
+                      f"'{category_project}', project_framework = '{framework_project}', day_details = "
+                      f"'{days_details}', project_progress = '{progress_project}', project_brief_short = "
+                      f"'{project_brief_short}', project_brief_big = '{project_brief_big}', project_cash = "
+                      f"'{amount_project}', number_of_tasks = '{tasks_project}' where idproject_details = '{project_id}'")
+        conn.commit()
+        return redirect(url_for("main_page"))
+
+    return redirect(url_for("main_page"))
 
 
 @app.route('/log_in_password_admin', methods=['POST'])

@@ -8409,7 +8409,8 @@ License: For each use you must have a valid license purchased only from above li
                             <div class="flex-row-fluid py-lg-5 px-lg-15">
                                 <!--begin::Form-->
 								{% for project in project_details %}
-                                <form class="form" action="/sports_update_form/{{sport_id}}" id="kt_modal_update_sport_form" method="POST">
+								{% if project[1] == project_name %}
+                                <form class="form" action="/project_update_form/{{project[0]}}" id="kt_modal_update_sport_form" method="POST">
                                     <!--begin::Step 1-->
                                     <div class="current" data-kt-stepper-element="content">
                                         <div class="w-100">
@@ -8613,7 +8614,7 @@ License: For each use you must have a valid license purchased only from above li
 													<!--end:Label-->
 													<!--begin:Input-->
 													<span class="form-check form-check-custom form-check-solid">
-														<input class="form-check-input" type="radio" checked="checked" name="framework" value="HTML/ Css" />
+														<input class="form-check-input" type="radio" name="framework" value="HTML/ Css" />
 													</span>
 													<!--end:Input-->
 												</label>
@@ -8715,6 +8716,7 @@ License: For each use you must have a valid license purchased only from above li
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </form>
+								{% endif %}
 								{% endfor %}
                                 <!--end::Form-->
                             </div>
@@ -14186,56 +14188,38 @@ License: For each use you must have a valid license purchased only from above li
 		<!--begin::Javascript-->
 		<script>
 		{% for project in project_details %}
-		// Get the input element
+		{% if project[1] == project_name %}
 		const projectNameInput = document.querySelector('input[name="project_name"]');
-
-		// Check if the input is empty
 		if (projectNameInput.value === "") {
 			// Populate the input field with the default value
 			projectNameInput.value = "{{ project[1] }}";
 		}
-		// end one
-		// Get the input element
-		const categoryInput = document.querySelector('input[name="category"]');
-
-		// Check if the input is empty
-		if (primaryDescriptionInput.value === "") {
+		const projectBriefShortInput = document.querySelector('input[name="project_brief_short"]');
+		if (projectBriefShortInput.value === "") {
 			// Populate the input field with the default value
-			categoryInput.value = "{{ project[2] }}";
+			projectBriefShortInput.value = "{{ project[6] }}";
 		}
-		// end two
-		// Get the input element
-		const frameworkInput = document.querySelector('input[name="framework"]');
-
-		// Check if the input is empty
-		if (frameworkInput.value === "") {
+		const projectBriefBigInput = document.querySelector('input[name="project_brief_big"]');
+		if (projectBriefBigInput.value === "") {
 			// Populate the input field with the default value
-			frameworkInput.value = "{{ project[3] }}";
-
-		// Get the input element
-		const days_detailsInput = document.querySelector('input[name="days_details"]');
-
-		// Check if the input is empty
-		if (days_detailsInput.value === "") {
-			// Populate the input field with the default value
-			days_detailsInput.value = "{{ project[4] }}";
-
-		// Get the input element
-		const project_brief_shortInput = document.querySelector('input[name="project_brief_short"]');
-
-		// Check if the input is empty
-		if (project_brief_shortInput.value === "") {
-			// Populate the input field with the default value
-			project_brief_shortInput.value = "{{ project[6] }}";
-
-		// Get the input element
-		const project_brief_bigInput = document.querySelector('input[name="project_brief_big"]');
-
-		// Check if the input is empty
-		if (project_brief_bigInput.value === "") {
-			// Populate the input field with the default value
-			project_brief_bigInput.value = "{{ project[7] }}";
+			projectBriefBigInput.value = "{{ project[7] }}";
 		}
+		const daysDetailsInput = document.querySelector('input[name="days_details"]');
+		if (daysDetailsInput.value === "") {
+			// Populate the input field with the default value
+			daysDetailsInput.value = "{{ project[4] }}";
+		}
+		const amountInput = document.querySelector('input[name="amount"]');
+		if (amountInput.value === "") {
+			// Populate the input field with the default value
+			amountInput.value = "{{ project[8] }}";
+		}
+		const tasksInput = document.querySelector('input[name="tasks"]');
+		if (tasksInput.value === "") {
+			// Populate the input field with the default value
+			tasksInput.value = "{{ project[9] }}";
+		}
+		{% endif %}
 		{% endfor %}
 		</script>
 		<script>
