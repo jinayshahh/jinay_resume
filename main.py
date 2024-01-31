@@ -38,6 +38,15 @@ def jinay_resume():
     return render_template("light-header.html", project_details=project_details_main)
 
 
+@app.route('/main_page', methods=['POST', 'GET'])
+def main_page():
+    mycur.execute("select * from project_details where soft_delete != 'yes'")
+    project_details_main = mycur.fetchall()
+    conn.commit()
+    print(project_details_main)
+    return render_template("light-header_admin.html", project_details=project_details_main)
+
+
 @app.route('/soft_delete_project_list')
 def soft_delete_project_list():
     mycur.execute("SELECT * from project_details where soft_delete = 'yes'")
@@ -52,14 +61,6 @@ def revive_match(revive_project_name):
     conn.commit()
     return redirect(url_for("main_page"))
 
-
-@app.route('/main_page', methods=['POST', 'GET'])
-def main_page():
-    mycur.execute("select * from project_details where soft_delete != 'yes'")
-    project_details_main = mycur.fetchall()
-    conn.commit()
-    print(project_details_main)
-    return render_template("light-header_admin.html", project_details=project_details_main)
 
 @app.route("/project_details_full/<project_name>")
 def project_details_full(project_name):
